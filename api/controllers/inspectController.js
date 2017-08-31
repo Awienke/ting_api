@@ -7,8 +7,8 @@ var Web3 = require('web3');
 var web3 = new Web3();
 web3.setProvider(new web3.providers.HttpProvider("http://cypethco6.westeurope.cloudapp.azure.com:8545"));
 
-
-			var ABIArray = [{
+			var ABIArray = require('./koalaMainABI.json');
+/*			var ABIArray = [{
 				"constant": false,
 				"inputs": [{
 					"name": "_tId",
@@ -152,7 +152,7 @@ web3.setProvider(new web3.providers.HttpProvider("http://cypethco6.westeurope.cl
 				}],
 				"name": "TingTransferred",
 				"type": "event"
-			}];
+			}];*/
 			var iptContractAddress = "0x2dfa99b636a8cbbf1c2816ce075fcf9e7c20070d";
 			var cyphaAddress = "0xdD21eC1b190f9AEbd2CE508b7d50F9b2577573Fa";
 			web3.eth.defaultAccount = cyphaAddress;
@@ -161,5 +161,14 @@ web3.setProvider(new web3.providers.HttpProvider("http://cypethco6.westeurope.cl
 			
 			var tingId = req.params.tingId;
 			var ting = iptContractInstance.tings(tingId);
-			res.json(ting);
+			var ting_json = {
+			    tId: ting[0],
+			    owner: ting[1],
+			    creator: ting[2],
+			    description: ting[3],
+			    customData: ting[4],
+			    creationTime: JSON.parse(ting[5])
+			}
+
+			res.json(ting_json);
 };
